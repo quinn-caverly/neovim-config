@@ -2,7 +2,9 @@ local lspconfig = require('lspconfig')
 local coq = require('coq')
 
 lspconfig.pyright.setup {}
+
 lspconfig.tsserver.setup {}
+
 lspconfig.rust_analyzer.setup {
   -- Server-specific settings. See `:help lspconfig-setup`
   settings = {
