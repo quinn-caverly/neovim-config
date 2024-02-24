@@ -16,7 +16,9 @@ require("lazy").setup({
         priority = 1000, -- make sure to load this before all the other start plugins
 
         config = function() vim.cmd("colorscheme nordfox") end
-    }, "nvim-tree/nvim-web-devicons", "nvim-lua/plenary.nvim", "williamboman/mason.nvim", -- install formatters and language servers using Mason, may need config in null-ls
+    }, { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } }, "nvim-tree/nvim-web-devicons",
+    "nvim-lua/plenary.nvim", "williamboman/mason.nvim", -- install formatters and language servers using Mason, may need config in null-ls
+
     "williamboman/mason-lspconfig.nvim", "neovim/nvim-lspconfig", "jose-elias-alvarez/null-ls.nvim", -- enables formatting, snippets, linting via config in after/
 
     "nvim-treesitter/nvim-treesitter", "ms-jpq/coq_nvim", "ms-jpq/coq.artifacts", "windwp/nvim-autopairs",
@@ -33,7 +35,7 @@ require("lazy").setup({
             -- refer to the configuration section below
         }
     }, "mfussenegger/nvim-dap", "rcarriga/nvim-dap-ui", "theHamsta/nvim-dap-virtual-text",
-    "mfussenegger/nvim-dap-python"
+    "mfussenegger/nvim-dap-python", "Vimjas/vim-python-pep8-indent"
 })
 
 require("mason").setup()
@@ -44,5 +46,7 @@ require("dap-python").setup("~/.virtualenvs/debugpy/bin/python")
 -- require('dap-python').test_runner = 'pytest'
 
 require("nvim-autopairs").setup()
+
+require'nvim-web-devicons'.setup()
 
 require("quinn-caverly")
