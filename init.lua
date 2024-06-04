@@ -10,6 +10,7 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 
 require("lazy").setup({
+
     {
         "EdenEast/nightfox.nvim",
         lazy = false,    -- make sure we load this during startup if it is your main colorscheme
@@ -22,35 +23,44 @@ require("lazy").setup({
     "neovim/nvim-lspconfig", "jose-elias-alvarez/null-ls.nvim",                              -- enables formatting, snippets, linting via config in after/
 
     "nvim-treesitter/nvim-treesitter", "windwp/nvim-autopairs", "folke/trouble.nvim", "nvim-telescope/telescope.nvim",
-    "numToStr/Comment.nvim", {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    init = function()
-        vim.o.timeout = true
-        vim.o.timeoutlen = 300
-    end,
-    opts = {
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-    }
-}, "mfussenegger/nvim-dap", "rcarriga/nvim-dap-ui", "theHamsta/nvim-dap-virtual-text",
+    {
+        "numToStr/Comment.nvim",
+        event = "VeryLazy",
+        init = function()
+            vim.o.timeout = true
+            vim.o.timeoutlen = 300
+        end,
+        opts = {
+            -- your configuration comes here
+            -- or leave it empty to use the default settings
+            -- refer to the configuration section below
+        }
+    }, "mfussenegger/nvim-dap", "rcarriga/nvim-dap-ui", "theHamsta/nvim-dap-virtual-text", "nvim-neotest/nvim-nio",
     "mfussenegger/nvim-dap-python", "Vimjas/vim-python-pep8-indent",
 
     -- autocompletion with nvim-cmp (has many dependencies)
     { "VonHeikemen/lsp-zero.nvim", branch = "v3.x" }, { "williamboman/mason.nvim" },
     { "williamboman/mason-lspconfig.nvim" }, { "neovim/nvim-lspconfig" }, { "L3MON4D3/LuaSnip" },
     { "hrsh7th/nvim-cmp" }, { "hrsh7th/cmp-nvim-lsp" }, { "hrsh7th/cmp-buffer" }, { "hrsh7th/cmp-path" },
-    { "saadparwaiz1/cmp_luasnip" }, { "rafamadriz/friendly-snippets" }
+    { "saadparwaiz1/cmp_luasnip" }, { "rafamadriz/friendly-snippets" },
+    -- fixes global vim problem: does a lot more also ?
+    "folke/neodev.nvim", "ggandor/leap.nvim", "github/copilot.vim", {
+    "nvimdev/dashboard-nvim",
+    event = "VimEnter",
+    config = function() require("dashboard").setup { theme = "hyper" } end,
+    dependencies = { { "nvim-tree/nvim-web-devicons" } }
+}
 })
+
+require("neodev").setup()
 
 local lsp_zero = require("lsp-zero")
 lsp_zero.extend_lspconfig()
-lsp_zero.on_attach(function(_client, bufnr) lsp_zero.default_keymaps({ buffer = bufnr }) end)
+lsp_zero.on_attach(function(_, bufnr) lsp_zero.default_keymaps({ buffer = bufnr }) end)
 
 lsp_zero.set_sign_icons({ error = "✘", warn = "▲", hint = "⚑", info = "»" })
 
-require("mason").setup({})
+require("mason").setup()
 require("mason-lspconfig").setup({
     handlers = {
         lsp_zero.default_setup,
@@ -62,15 +72,15 @@ require("mason-lspconfig").setup({
 })
 
 require("lspconfig").lua_ls.setup({})
-require("cmp").setup()
+require("cmp").setup({})
 
-require("nvim-dap-virtual-text").setup()
+require("nvim-dap-virtual-text").setup({})
 require("dapui").setup()
 require("dap-python").setup("~/.virtualenvs/debugpy/bin/python")
 -- require('dap-python').test_runner = 'pytest'
 
 require("nvim-autopairs").setup()
-
 require "nvim-web-devicons".setup()
+require("leap").create_default_mappings()
 
 require("quinn-caverly")
